@@ -2,10 +2,15 @@ services:
   app:
     build: .
     volumes:
-      - .:/var/www/
-    working_dir: /var/www/example-app
+      - .:/var/www/html
+    working_dir: /var/www/html/example-app
 
   mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+  mysql_test:
     image: mysql:8.0
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
