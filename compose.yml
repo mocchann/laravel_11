@@ -4,6 +4,8 @@ services:
     volumes:
       - .:/var/www/html
     working_dir: /var/www/html/example-app
+    ports:
+      - "80:80"
 
   mysql:
     image: mysql:8.0
