@@ -85,10 +85,27 @@ class UserTest extends TestCase
       ->groupBy('user_id');
 
     $users = DB::table('users')
-        ->joinSub($latestPosts, 'latests_posts', function (JoinClause $join) {
-            $join->on('users.id', '=', 'latests_posts.user_id');
-        })
-        ->get();
-    dd($users);
+      ->joinSub($latestPosts, 'latests_posts', function (JoinClause $join) {
+        $join->on('users.id', '=', 'latests_posts.user_id');
+      })
+      ->get();
+  }
+
+  /** @test */
+  public function joinLateral()
+  {
+    User::factory()->has(Post::factory()->count(2))->create();
+
+    $latestPosts = DB::table('posts')
+      ->select('id as post_id', 'created_at as post_created_at')
+      ->whereColumn('user_id', 'users.id')
+      ->orderBy('created_at', 'desc')
+      ->limit(3);
+
+    $users = DB::table('users')
+      ->joinLateral($latestPosts, 'latest_posts')
+      ->get();
+
+      dd($users);
   }
 }
