@@ -105,7 +105,17 @@ class UserTest extends TestCase
     $users = DB::table('users')
       ->joinLateral($latestPosts, 'latest_posts')
       ->get();
+  }
 
-      dd($users);
+  /** @test */
+  public function union()
+  {
+      User::factory()->has(Post::factory())->create();
+
+      $first = DB::table('users');
+      $union = DB::table('users')
+          ->union($first)
+          ->get();
+      dd($union);
   }
 }
