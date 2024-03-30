@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
@@ -127,6 +128,20 @@ class UserTest extends TestCase
                 ['id', '>', 1],
             ])
             ->get();
-        dd($user);
+    }
+
+    /** @test */
+    public function orWhere()
+    {
+        User::factory()->create();
+        User::factory()->create();
+        User::factory()->create();
+        $users = DB::table('users')
+            ->where('id', '>', 1)
+            ->Where(function (Builder $query) {
+                $query->where('email', 'like', '%net');
+            })
+            ->get();
+        dd($users);
     }
 }
