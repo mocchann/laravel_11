@@ -142,6 +142,20 @@ class UserTest extends TestCase
                 $query->where('email', 'like', '%net');
             })
             ->get();
+    }
+
+    /** @test */
+    public function whereNot()
+    {
+        User::factory()->create();
+        User::factory()->create();
+        User::factory()->create();
+        $users = DB::table('users')
+            ->whereNot(function (Builder $query) {
+                $query->where('email', 'like', '%com')
+                    ->orWhere('email', 'like', '%org');
+            })
+            ->get();
         dd($users);
     }
 }
