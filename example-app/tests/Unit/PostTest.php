@@ -9,7 +9,9 @@ class PostTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test() {
+    /** @test */
+    public function test()
+    {
         $user = User::factory()->has(Post::factory()->count(3))->create();
 
         $this->assertSame($user->posts->first()->tweet, Post::first()->tweet);
