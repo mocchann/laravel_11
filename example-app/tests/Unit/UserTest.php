@@ -116,6 +116,17 @@ class UserTest extends TestCase
         $union = DB::table('users')
             ->union($first)
             ->get();
-        dd($union);
+    }
+
+    /** @test */
+    public function whereArray()
+    {
+        User::factory()->create();
+        $user = DB::table('users')
+            ->where([
+                ['id', '>', 1],
+            ])
+            ->get();
+        dd($user);
     }
 }
