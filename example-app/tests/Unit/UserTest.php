@@ -138,7 +138,7 @@ class UserTest extends TestCase
         User::factory()->create();
         $users = DB::table('users')
             ->where('id', '>', 1)
-            ->Where(function (Builder $query) {
+            ->orWhere(function (Builder $query) {
                 $query->where('email', 'like', '%net');
             })
             ->get();
